@@ -1,0 +1,6 @@
+cmd/infragraph-mcp-server
+*.log
+.vscode/
+dist/
+.idea/
+.cursor/
