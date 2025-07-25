@@ -1,4 +1,4 @@
-cmd/infragraph-mcp-server
+server/bin/infragraph-mcp-server
 *.log
 .vscode/
 dist/

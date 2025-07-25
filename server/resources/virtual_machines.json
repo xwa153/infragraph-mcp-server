@@ -1,0 +1,9 @@
+{
+  "description": "Find all virtual machines in the organization",
+  "query": {
+    "node": {
+      "node_label": "VIRTUAL_MACHINE"
+    }
+  }
+}
+

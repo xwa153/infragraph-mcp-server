@@ -1,77 +1,78 @@
 # Infragraph MCP Server
 
-The Infragraph MCP Server is a [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction)
-server that provides integration with Infragraph APIs, enabling fetching information swiftly
-through natural language in LLMs.
+An MCP (Model Context Protocol) server that provides tools to query the Infragraph service for infrastructure graph data.
+
+## Overview
+
+This MCP server enables users to query infrastructure graphs through the Infragraph service, allowing you to explore relationships between virtual machines, containers, databases, and other infrastructure components.
+
+## Features
+
+- **QueryInfragraph**: Query the Infragraph service with complex graph queries
+- **ListConnections**: List all connections in an organization
+- Query templates and examples in the `server/resources/` directory
 
 ## Installation
 
-### Usage with VS Code
-
-Add the following JSON block to your User Settings (JSON) file in VS Code. You can do this by pressing `Ctrl + Shift + P` and typing `Preferences: Open User Settings (JSON)`. 
-
-Compile the server by running `make build`.
-
-More about using MCP server tools in VS Code's [agent mode documentation](https://code.visualstudio.com/docs/copilot/chat/mcp-servers).
-Remember to update the path to the binary.
-
-```json
-{
-  "servers": {
-    "Infragraph": {
-      "command": "path/to/infragraph-mcp-server/cmd/infragraph-mcp-server"
-    }
-  }
-}
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd infragraph-mcp-server
 ```
 
-Optionally, you can add a similar example (i.e. without the mcp key) to a file called `.vscode/mcp.json` in your workspace. This will allow you to share the configuration with others.
-
-```json
-{
-  "servers": {
-    "Infragraph": {
-      "command": "path/to/infragraph-mcp-server/cmd/infragraph-mcp-server"
-    }
-  }
-}
+2. Install dependencies:
+```bash
+go mod tidy
 ```
 
-## Tool Configuration
+3. Build the server:
+```bash
+make build
+```
 
-### Available Toolsets
+## Usage
 
-The following sets of tools are available:
+### Starting the Server
 
-| Toolset | Tool | Description |
-|---------|------|-------------|
-| `connections` | `ListConnections` | List connections in specific org |
+```bash
+./server/bin/infragraph-mcp-server
+```
 
-## Development
+### Available Tools
 
-### Prerequisites
-- Go (check [go.mod](./go.mod) file for specific version)
+#### QueryInfragraph
 
-### Available Make Commands
+Query the Infragraph service with complex graph queries.
 
-| Command | Description |
-|---------|-------------|
-| `make build` | Build the binary |
+**Parameters:**
+- `org_id` (required): The organization ID to query
+- `query` (required): JSON string representing the graph query structure
 
-## Contributing
+#### ListConnections
 
-1. Fork the repository
-2. Create your feature branch
-3. Make your changes
-4. Run tests
-5. Submit a pull request
+List all connections in an organization.
 
-## License
+**Parameters:**
+- `org_id` (required): The organization ID to list connections for
 
-This project is licensed under the terms of the MPL-2.0 open source license. Please refer to [LICENSE](./LICENSE) file for the full terms.
+## Query Templates
 
-## Support
+The `server/resources/` directory contains pre-built query templates:
 
-For bug reports and feature requests, please open an issue on GitHub.
+- `virtual_machines.json`: Find all virtual machines
+- `vm_with_images.json`: Find VMs and their associated images
 
-For general questions and discussions, open a GitHub Discussion.
+## API Endpoints
+
+The server connects to the Infragraph service using the following endpoints:
+
+### List Connections
+- **URL**: `http://localhost:28081/infragraph/2025-05-07/organizations/{org_id}/connections`
+- **Method**: GET
+- **Description**: Retrieves all connections for the specified organization
+
+### Query Infragraph
+- **URL**: `http://localhost:28081/infragraph/2025-05-07/organizations/{org_id}/query`
+- **Method**: POST
+- **Request Body**: JSON object with a `query` field containing the graph query
+- **Description**: Executes complex graph queries against the infrastructure data

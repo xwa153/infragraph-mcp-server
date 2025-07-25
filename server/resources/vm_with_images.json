@@ -1,0 +1,18 @@
+{
+  "description": "Find virtual machines and their associated images",
+  "query": {
+    "node": {
+      "node_label": "VIRTUAL_MACHINE"
+    },
+    "edge": {
+      "edge_label": "RUNS",
+      "incoming": false,
+      "node_query": {
+        "node": {
+          "node_label": "VIRTUAL_MACHINE_IMAGE"
+        }
+      }
+    }
+  }
+}
+
